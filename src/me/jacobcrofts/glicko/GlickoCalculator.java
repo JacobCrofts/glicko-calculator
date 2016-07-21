@@ -11,8 +11,8 @@ public final class GlickoCalculator {
 	
 	public static int getNewRating(GlickoCompetitor player) {
 		
-		int rating = player.getOriginalRating();
-		double deviation = player.getOriginalRatingDeviation();
+		int rating = player.getRating();
+		double deviation = player.getRatingDeviation();
 		
 		ArrayList<Double> outcomes = player.getProfile().getOutcomes();
 		ArrayList<GlickoCompetitor> opponents = player.getProfile().getOpponents();
@@ -23,8 +23,8 @@ public final class GlickoCalculator {
 	
 	public static double getNewRatingDeviation(GlickoCompetitor player) {
 		
-		int rating = player.getOriginalRating();
-		double deviation = player.getOriginalRatingDeviation();
+		int rating = player.getRating();
+		double deviation = player.getRatingDeviation();
 		
 		ArrayList<GlickoCompetitor> opponents = player.getProfile().getOpponents();
 		
@@ -38,8 +38,8 @@ public final class GlickoCalculator {
 		Iterator<GlickoCompetitor> it = opponents.iterator();
 		while (it.hasNext()) {
 			GlickoCompetitor opponent = it.next();
-			double g = g(opponent.getOriginalRatingDeviation());
-			double e = E(rating, opponent.getOriginalRating(), opponent.getOriginalRatingDeviation());
+			double g = g(opponent.getRatingDeviation());
+			double e = E(rating, opponent.getRating(), opponent.getRatingDeviation());
 			sum += g * g * e * (1 - e);
 		}
 		
@@ -78,7 +78,7 @@ public final class GlickoCalculator {
 		while (opponentIterator.hasNext() && outcomeIterator.hasNext()) {
 			GlickoCompetitor opponent = opponentIterator.next();
 			double outcome = outcomeIterator.next();
-			sum += (g(opponent.getOriginalRatingDeviation()) * (outcome - E(originalRating, opponent.getOriginalRating(), opponent.getOriginalRatingDeviation())));
+			sum += (g(opponent.getRatingDeviation()) * (outcome - E(originalRating, opponent.getRating(), opponent.getRatingDeviation())));
 		}
 		
 		double prefix = q / ((1 / Math.pow(ratingDeviation, 2)) + (1 / (dSquared(originalRating, opponentData))));

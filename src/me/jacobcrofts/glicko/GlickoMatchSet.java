@@ -20,7 +20,6 @@ public final class GlickoMatchSet {
 	}
 	
 	private Set<GlickoCompetitor> getCompetitors() {
-//		List<GlickoCompetitor> competitors = new ArrayList<GlickoCompetitor>();
 		Map<GlickoCompetitor, Boolean> competitors = new HashMap<GlickoCompetitor, Boolean>();
 		for (GlickoMatch match : this.matches) {
 			competitors.put(match.getFirstPlayer(), true);
@@ -29,10 +28,16 @@ public final class GlickoMatchSet {
 		return competitors.keySet();
 	}
 	
-	public void assignNewDataToAllCompetitors() {		
+	public void assignNewDataToAllCompetitors() {
+		Map<GlickoCompetitor, Integer> ratingData = new HashMap<GlickoCompetitor, Integer>();
+		Map<GlickoCompetitor, Double> deviationData = new HashMap<GlickoCompetitor, Double>();
 		for (GlickoCompetitor player : this.getCompetitors()) {
-			player.setRating(GlickoCalculator.getNewRating(player));
-			player.setRatingDeviation(GlickoCalculator.getNewRatingDeviation(player));
+			ratingData.put(player, GlickoCalculator.getNewRating(player));
+			deviationData.put(player, GlickoCalculator.getNewRatingDeviation(player));
+		}
+		for (GlickoCompetitor player : this.getCompetitors()) {
+			player.setRating(ratingData.get(player));
+			player.setRatingDeviation(deviationData.get(player));
 		}
 	}
 
