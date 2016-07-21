@@ -27,13 +27,15 @@ public final class GlickoMatchSet {
 		double deviation = player.getOriginalRatingDeviation();
 		
 		ArrayList<Double> outcomes = new ArrayList<Double>();
-		LinkedHashMap<Integer, Double> opponentData = new LinkedHashMap<Integer, Double>();
+		ArrayList<GlickoCompetitor> opponentData = new ArrayList<GlickoCompetitor>();
+//		LinkedHashMap<Integer, Double> opponentData = new LinkedHashMap<Integer, Double>();
 		
 		for (GlickoMatch match : this.matches) {
 			if (match.involves(player)) {
 				outcomes.add(match.getOutcome(player).getValue());
 				GlickoCompetitor opponent = match.getOpponent(player);
-				opponentData.put(opponent.getOriginalRating(), opponent.getOriginalRatingDeviation());
+				opponentData.add(opponent);
+//				opponentData.put(opponent.getOriginalRating(), opponent.getOriginalRatingDeviation());
 			}
 		}
 		
@@ -46,12 +48,12 @@ public final class GlickoMatchSet {
 		int rating = player.getOriginalRating();
 		double deviation = player.getOriginalRatingDeviation();
 		
-		LinkedHashMap<Integer, Double> opponentData = new LinkedHashMap<Integer, Double>();
+		ArrayList<GlickoCompetitor> opponentData = new ArrayList<GlickoCompetitor>();
 		
 		for (GlickoMatch match : this.matches) {
 			if (match.involves(player)) {
 				GlickoCompetitor opponent = match.getOpponent(player);
-				opponentData.put(opponent.getOriginalRating(), opponent.getOriginalRatingDeviation());
+				opponentData.add(opponent);
 			}
 		}
 		
@@ -75,11 +77,13 @@ public final class GlickoMatchSet {
 		return competitors;
 	}
 	
-	private double getNewRatingDeviation(int rating, double ratingDeviation, LinkedHashMap<Integer, Double> opponentData) {
-		return Math.sqrt(1 / ((1 / Math.pow(ratingDeviation, 2)) + (1 / dSquared(rating, opponentData))));
+	private double getNewRatingDeviation(int rating, double ratingDeviation, ArrayList<GlickoCompetitor> opponents) {
+		return Math.sqrt(1 / ((1 / Math.pow(ratingDeviation, 2)) + (1 / dSquared(rating, opponents))));
 	}
 	
-	private int getNewRating(int originalRating, double ratingDeviation, LinkedHashMap<Integer, Double> opponentData, ArrayList<Double> outcomes) {
+	private int getNewRating(int originalRating, double ratingDeviation, ArrayList<GlickoCompetitor> opponentData, ArrayList<Double> outcomes) {
+		
+//		System.out.println(opponentData.size() + " : " + outcomes.size());
 		
 		if (opponentData.size() != outcomes.size()) {
 			throw new IllegalArgumentException("Invalid opponent data passed to Glicko calculator.");
@@ -93,13 +97,13 @@ public final class GlickoMatchSet {
 		
 		double sum = 0;
 		
-		Iterator<Entry<Integer, Double>> dataIterator = opponentData.entrySet().iterator();
+		Iterator<GlickoCompetitor> opponentIterator = opponentData.iterator();
 		Iterator<Double> outcomeIterator = outcomes.iterator();
 		
-		while (dataIterator.hasNext() && outcomeIterator.hasNext()) {
-			Map.Entry<Integer, Double> nextDataPair = dataIterator.next();
+		while (opponentIterator.hasNext() && outcomeIterator.hasNext()) {
+			GlickoCompetitor opponent = opponentIterator.next();
 			double outcome = outcomeIterator.next();
-			sum += (g(nextDataPair.getValue()) * (outcome - E(originalRating, nextDataPair.getKey(), nextDataPair.getValue())));
+			sum += (g(opponent.getOriginalRatingDeviation()) * (outcome - E(originalRating, opponent.getOriginalRating(), opponent.getOriginalRatingDeviation())));
 		}
 		
 		double prefix = q / ((1 / Math.pow(ratingDeviation, 2)) + (1 / (dSquared(originalRating, opponentData))));
@@ -107,14 +111,14 @@ public final class GlickoMatchSet {
 		return (originalRating + Math.round((float) (prefix * sum)));
 	}
 	
-	private double dSquared(int rating, Map<Integer, Double> opponentRatingsAndDeviations) {
+	private double dSquared(int rating, ArrayList<GlickoCompetitor> opponents) {
 		double sum = 0;
 		
-		Iterator<Entry<Integer, Double>> it = opponentRatingsAndDeviations.entrySet().iterator();
+		Iterator<GlickoCompetitor> it = opponents.iterator();
 		while (it.hasNext()) {
-			Map.Entry<Integer, Double> nextPair = it.next();
-			double g = g(nextPair.getValue());
-			double e = E(rating, nextPair.getKey(), nextPair.getValue());
+			GlickoCompetitor opponent = it.next();
+			double g = g(opponent.getOriginalRatingDeviation());
+			double e = E(rating, opponent.getOriginalRating(), opponent.getOriginalRatingDeviation());
 			sum += g * g * e * (1 - e);
 		}
 		
