@@ -34,11 +34,6 @@ public final class GlickoMatch {
 		
 	}
 	
-	public boolean involves(GlickoCompetitor player) {
-		String id = player.getID();
-		return id.equals(this.firstPlayer.getID()) || id.equals(this.secondPlayer.getID());
-	}
-	
 	public GlickoCompetitor getOpponent(GlickoCompetitor player) {
 		String id = player.getID();
 		
@@ -51,6 +46,11 @@ public final class GlickoMatch {
 		}
 		
 		return null;
+	}
+	
+	public void register() {
+		this.firstPlayer.getProfile().registerMatch(this);
+		this.getSecondPlayer().getProfile().registerMatch(this);
 	}
 	
 	public enum GlickoMatchOutcome {
