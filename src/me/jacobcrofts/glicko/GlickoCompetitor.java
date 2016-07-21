@@ -29,6 +29,30 @@ public final class GlickoCompetitor {
 		this.profile = new MatchProfile();
 	}
 	
+	public MatchProfile getProfile() {
+		return this.profile;
+	}
+	
+	public String getID() {
+		return this.id;
+	}
+	
+	public int getRating() {
+		return this.rating;
+	}
+	
+	public void setRating(int newRating) {
+		this.rating = newRating;
+	}
+	
+	public double getRatingDeviation() {
+		return this.ratingDeviation;
+	}
+	
+	public void setRatingDeviation(double newRatingDeviation) {
+		this.ratingDeviation = newRatingDeviation;
+	}
+	
 	public class MatchProfile {
 		
 		private ArrayList<GlickoCompetitor> opponents;
@@ -52,30 +76,11 @@ public final class GlickoCompetitor {
 			return this.outcomes;
 		}
 		
-	}
-	
-	public MatchProfile getProfile() {
-		return this.profile;
-	}
-	
-	public String getID() {
-		return this.id;
-	}
-	
-	public int getRating() {
-		return this.rating;
-	}
-	
-	public void setRating(int newRating) {
-		this.rating = newRating;
-	}
-	
-	public double getRatingDeviation() {
-		return this.ratingDeviation;
-	}
-	
-	public void setRatingDeviation(double newRatingDeviation) {
-		this.ratingDeviation = newRatingDeviation;
+		public void clear() {
+			this.opponents.clear();
+			this.outcomes.clear();
+		}
+		
 	}
 
 }
