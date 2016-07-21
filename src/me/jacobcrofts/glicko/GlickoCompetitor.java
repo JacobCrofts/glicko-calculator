@@ -18,7 +18,6 @@ public final class GlickoCompetitor {
 		this.id = id;
 		this.originalRating = rating;
 		this.originalRatingDeviation = Math.min(350, Math.sqrt(Math.pow(oldRatingDeviation, 2) + Math.pow(c, 2) * timeSinceLastParticipation));
-		// TODO: make sure this works...
 	}
 	
 	public GlickoCompetitor(String id, int rating, double oldRatingDeviation) {
