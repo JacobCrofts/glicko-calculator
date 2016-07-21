@@ -38,6 +38,7 @@ public final class GlickoMatchSet {
 		for (GlickoCompetitor player : this.getCompetitors()) {
 			player.setRating(ratingData.get(player));
 			player.setRatingDeviation(deviationData.get(player));
+			player.getProfile().clear();
 		}
 	}
 
