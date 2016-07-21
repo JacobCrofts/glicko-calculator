@@ -11,23 +11,21 @@ public final class GlickoCompetitor {
 	}
 	
 	private final String id;
-	private final int originalRating;
-	private int newRating;
-	private final double originalRatingDeviation;
-	private double newRatingDeviation;
+	private int rating;
+	private double ratingDeviation;
 	private MatchProfile profile;
 	
 	public GlickoCompetitor(String id, int rating, double oldRatingDeviation, int timeSinceLastParticipation) {
 		this.id = id;
-		this.originalRating = rating;
-		this.originalRatingDeviation = Math.min(350, Math.sqrt(Math.pow(oldRatingDeviation, 2) + Math.pow(c, 2) * timeSinceLastParticipation));
+		this.rating = rating;
+		this.ratingDeviation = Math.min(350, Math.sqrt(Math.pow(oldRatingDeviation, 2) + Math.pow(c, 2) * timeSinceLastParticipation));
 		this.profile = new MatchProfile();
 	}
 	
 	public GlickoCompetitor(String id, int rating, double oldRatingDeviation) {
 		this.id = id;
-		this.originalRating = rating;
-		this.originalRatingDeviation = oldRatingDeviation;
+		this.rating = rating;
+		this.ratingDeviation = oldRatingDeviation;
 		this.profile = new MatchProfile();
 	}
 	
@@ -60,39 +58,24 @@ public final class GlickoCompetitor {
 		return this.profile;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	public String getID() {
 		return this.id;
 	}
 	
-	public int getOriginalRating() {
-		return this.originalRating;
-	}
-	
-	public int getNewRating() {
-		return this.newRating;
+	public int getRating() {
+		return this.rating;
 	}
 	
 	public void setRating(int newRating) {
-		this.newRating = newRating;
+		this.rating = newRating;
 	}
 	
-	public double getOriginalRatingDeviation() {
-		return this.originalRatingDeviation;
-	}
-	
-	public double getNewRatingDeviation() {
-		return this.newRatingDeviation;
+	public double getRatingDeviation() {
+		return this.ratingDeviation;
 	}
 	
 	public void setRatingDeviation(double newRatingDeviation) {
-		this.newRatingDeviation = newRatingDeviation;
+		this.ratingDeviation = newRatingDeviation;
 	}
 
 }
