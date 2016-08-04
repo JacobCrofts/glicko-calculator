@@ -1,4 +1,5 @@
-# Java Glicko Formula Resource: *mass-calculate player ratings in a rated tournament such as chess*
+# Java Glicko Formula Resource:
+*mass-calculate player ratings in a rated tournament such as chess*
 
 This is a Java implementation of Glicko's original formula. My Glicko resource will calculate a player's new rating and rating deviation after a series of matches against other players.
 
