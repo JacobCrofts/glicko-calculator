@@ -1,9 +1,8 @@
-# Java Glicko Formula Resource:
-*mass-calculate player ratings in a rated tournament such as chess*
+# Java Glicko Formula Resource
 
-This is a Java implementation of Glicko's original formula. My Glicko resource will calculate a player's new rating and rating deviation after a series of matches against other players.
+This is a Java implementation of Glicko's original formula, which is used to recalculate player ratings in a formal tournament such as chess. My Glicko resource will calculate a player's new rating and rating deviation (which indicates the rating's reliability) after a series of matches against other players.
 
-[Here](http://www.glicko.net/glicko/glicko.pdf) is Mark Glickman's article about his formula, which explains in some depth why his formula is superior to the Elo system. Glickman has a second, improved formula which he describes in detail [here](http://www.glicko.net/glicko/glicko2.pdf).
+[Here](http://www.glicko.net/glicko/glicko.pdf) is Mark Glickman's article about his formula, which explains in some depth how his formula offers improvements over the Elo system. Glickman has a second, further improved formula which he describes in detail [here](http://www.glicko.net/glicko/glicko2.pdf).
 
 This resource is based on Glickman's *first* formula. Resources already exist for his second formula. ([Here](https://github.com/goochjs/glicko2) is one).
 
